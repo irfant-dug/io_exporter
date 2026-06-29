@@ -4,7 +4,7 @@ if [ "$EUID" -ne 0 ]; then
   exit 1
 fi
 
-dnf install python3.9 -y
+dnf install python3.9 jq -y
 mkdir -p /opt/io_exporter
 
 install -o root -g root -m 644 systemd/io_exporter_api.service /etc/systemd/system/

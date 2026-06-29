@@ -5,7 +5,7 @@ After=network.target
 [Service]      
 User=root
 WorkingDirectory=/opt/io_exporter
-ExecStart=/opt/io_exporter/io_exporter-env/bin/uvicorn innotechscraper_api:app --host 0.0.0.0 --port 8001 --no-access-log --log-level error
+ExecStart=/opt/io_exporter/io_exporter-env/bin/uvicorn io_exporter_api:app --host 0.0.0.0 --port 8001 --no-access-log --log-level error
 Restart=always
 
 [Install]
