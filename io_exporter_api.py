@@ -13,8 +13,8 @@ def read_root():
     try:
         with open('/tmp/io_exporter/iosnoop.json', 'r') as iosnoop:
             content = json.load(iosnoop)
-        
-			return content
+
+            return content
     except:
         raise HTTPException (
             status_code=500,
