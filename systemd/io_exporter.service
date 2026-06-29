@@ -1,0 +1,12 @@
+[Unit] 
+Description=IO Exporter for Lustre
+After=network-online.target io_exporter_api.service 
+Requires=io_exporter_api.service 
+
+[Service]
+User=root 
+WorkingDirectory=/opt/io_exporter 
+ExecStart=/opt/io_exporter/io_exporter.sh
+ExecStop=/usr/bin/rm -rf /tmp/io_exporter/*
+ExecStopPost=/usr/bin/rm -rf /tmp/io_exporter/*
+Restart=on-failure

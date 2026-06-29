@@ -1,0 +1,28 @@
+#!/bin/bash
+if [ "$EUID" -ne 0 ]; then
+  echo "Please run as root"
+  exit 1
+fi
+
+dnf install python3.9 -y
+mkdir -p /opt/io_exporter
+
+install -o root -g root -m 644 systemd/io_exporter_api.service /etc/systemd/system/
+install -o root -g root -m 644 systemd/io_exporter.timer /etc/systemd/system/
+install -o root -g root -m 644 systemd/io_exporter.service /etc/systemd/system/
+
+install -o root -g root io_exporter.sh /opt/io_exporter/
+install -o root -g root io_exporter_api.py /opt/io_exporter/
+install -o root -g root iosnoop /opt/io_exporter/
+install -o root -g root iosnoop_processing.sh /opt/io_exporter/
+
+
+python3.9 -m venv /opt/io_exporter/io_exporter-env
+/opt/io_exporter/io_exporter-env/bin/python -m pip install --upgrade pip
+/opt/io_exporter/io_exporter-env/bin/python -m pip install fastapi[standard]
+
+systemctl enable --now io_exporter_api.service
+sleep 5
+systemctl enable --now io_exporter.timer
+firewall-cmd --zone=public --add-port=8001/tcp --permanent
+firewall-cmd --reload

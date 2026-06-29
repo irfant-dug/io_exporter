@@ -1,0 +1,10 @@
+[Unit]
+Description=Run IO exporter script every 1 minutes, at second 10
+
+[Timer]
+OnCalendar=*:*:10
+AccuracySec=1s
+Persistent=false
+
+[Install]
+WantedBy=timers.target
